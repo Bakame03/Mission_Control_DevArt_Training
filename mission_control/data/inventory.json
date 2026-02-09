@@ -1,32 +1,62 @@
 [
     {
         "id": 1,
-        "name": "Oxygen",
-        "level": 85,
-        "status": "Stable"
+        "name": "Oxygène",
+        "level": 87,
+        "status": "Stable",
+        "type": "Gaz",
+        "description": "O₂ synthétique de grade A-7. Pureté 99.97%. Système de recyclage actif.",
+        "trend": "up",
+        "unit": "L",
+        "maxCapacity": 15000,
+        "currentAmount": 13050
     },
     {
         "id": 2,
-        "name": "Water",
+        "name": "Eau",
         "level": 42,
-        "status": "Nominal"
+        "status": "Attention",
+        "type": "Liquide",
+        "description": "H₂O déionisée. Filtration nano-membrane. Contaminants: 0.001 ppm.",
+        "trend": "down",
+        "unit": "L",
+        "maxCapacity": 8000,
+        "currentAmount": 3360
     },
     {
         "id": 3,
-        "name": "Fuel",
-        "level": 92,
-        "status": "Full"
+        "name": "Carburant Plasma",
+        "level": 93,
+        "status": "Optimal",
+        "type": "Énergie",
+        "description": "Deutérium-Tritium haute densité. Confinement magnétique stable.",
+        "trend": "stable",
+        "unit": "TW",
+        "maxCapacity": 500,
+        "currentAmount": 465
     },
     {
         "id": 4,
-        "name": "Food",
-        "level": 15,
-        "status": "Low"
+        "name": "Bio-Rations",
+        "level": 18,
+        "status": "Critique",
+        "type": "Solide",
+        "description": "Nutriments lyophilisés K-12. Enrichis en vitamines synthétiques.",
+        "trend": "down",
+        "unit": "kg",
+        "maxCapacity": 2000,
+        "currentAmount": 360
     },
     {
         "id": 5,
-        "name": "Energy",
-        "level": 60,
-        "status": "Safe"
+        "name": "Batterie Bouclier",
+        "level": 64,
+        "status": "Nominal",
+        "type": "Énergie",
+        "description": "Cellules Quantum-Ion MK-IV. Recharge solaire auto-régulée.",
+        "trend": "up",
+        "unit": "%",
+        "maxCapacity": 100,
+        "currentAmount": 64
     }
 ]
