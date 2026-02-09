@@ -17,19 +17,26 @@ interface InventoryItem {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// STATIC DATA - Production Ready
+// DONNÉES STATIQUES - Version Française
 // ═══════════════════════════════════════════════════════════════════════════════
 const INVENTORY_DATA: InventoryItem[] = [
-    { id: 1, name: "OXYGEN", level: 87, status: "NOMINAL", unit: "L", max: 15000, current: 13050, type: "GAS" },
-    { id: 2, name: "WATER", level: 42, status: "WARNING", unit: "L", max: 8000, current: 3360, type: "LIQUID" },
-    { id: 3, name: "PLASMA FUEL", level: 93, status: "OPTIMAL", unit: "TW", max: 500, current: 465, type: "ENERGY" },
-    { id: 4, name: "BIO-RATIONS", level: 18, status: "CRITICAL", unit: "kg", max: 2000, current: 360, type: "SOLID" },
-    { id: 5, name: "SHIELD POWER", level: 64, status: "STABLE", unit: "%", max: 100, current: 64, type: "ENERGY" },
-    { id: 6, name: "REACTOR CORE", level: 100, status: "PEAK", unit: "MW", max: 1200, current: 1200, type: "ENERGY" },
+    { id: 1, name: "OXYGÈNE", level: 87, status: "NOMINAL", unit: "L", max: 15000, current: 13050, type: "GAZ" },
+    { id: 2, name: "EAU", level: 42, status: "ATTENTION", unit: "L", max: 8000, current: 3360, type: "LIQUIDE" },
+    { id: 3, name: "CARBURANT PLASMA", level: 93, status: "OPTIMAL", unit: "TW", max: 500, current: 465, type: "ÉNERGIE" },
+    { id: 4, name: "BIO-RATIONS", level: 18, status: "CRITIQUE", unit: "kg", max: 2000, current: 360, type: "SOLIDE" },
+    { id: 5, name: "BOUCLIER", level: 64, status: "STABLE", unit: "%", max: 100, current: 64, type: "ÉNERGIE" },
+    { id: 6, name: "RÉACTEUR", level: 100, status: "MAXIMUM", unit: "MW", max: 1200, current: 1200, type: "ÉNERGIE" },
 ];
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// COLOR UTILITIES
+// UTILITAIRE: Formater les nombres
+// ═══════════════════════════════════════════════════════════════════════════════
+const formatNumber = (num: number): string => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+};
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// UTILITAIRE: Couleurs selon le statut
 // ═══════════════════════════════════════════════════════════════════════════════
 const getStatusColor = (level: number) => {
     if (level >= 80) return { primary: '#10b981', glow: 'rgba(16, 185, 129, 0.6)' };
@@ -39,7 +46,7 @@ const getStatusColor = (level: number) => {
 };
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// GLASS CARD COMPONENT
+// COMPOSANT CARTE VERRE
 // ═══════════════════════════════════════════════════════════════════════════════
 interface GlassCardProps {
     item: InventoryItem;
@@ -47,7 +54,7 @@ interface GlassCardProps {
     mouseY: number;
 }
 
-const GlassCard: React.FC<GlassCardProps> = ({ item, mouseX, mouseY }) => {
+function GlassCard({ item, mouseX, mouseY }: GlassCardProps) {
     const cardRef = useRef<HTMLDivElement>(null);
     const [localX, setLocalX] = useState(50);
     const [localY, setLocalY] = useState(50);
@@ -85,7 +92,7 @@ const GlassCard: React.FC<GlassCardProps> = ({ item, mouseX, mouseY }) => {
         `,
             }}
         >
-            {/* Noise texture */}
+            {/* Texture bruit */}
             <div
                 className="absolute inset-0 opacity-[0.08] mix-blend-overlay pointer-events-none rounded-2xl"
                 style={{
@@ -93,17 +100,17 @@ const GlassCard: React.FC<GlassCardProps> = ({ item, mouseX, mouseY }) => {
                 }}
             />
 
-            {/* Light reflection */}
+            {/* Reflet lumineux */}
             <div
                 className="absolute top-0 left-0 right-0 h-[1px] opacity-50"
                 style={{ background: `linear-gradient(90deg, transparent, ${colors.primary}, transparent)` }}
             />
 
-            {/* Corner accents */}
+            {/* Accents de coin */}
             <div className="absolute top-2 left-2 w-4 h-4 border-l-2 border-t-2 rounded-tl" style={{ borderColor: colors.primary }} />
             <div className="absolute bottom-2 right-2 w-4 h-4 border-r-2 border-b-2 rounded-br" style={{ borderColor: colors.primary }} />
 
-            {/* Content */}
+            {/* Contenu */}
             <div className="relative z-10">
                 <div className="flex justify-between items-start mb-4">
                     <div>
@@ -133,7 +140,7 @@ const GlassCard: React.FC<GlassCardProps> = ({ item, mouseX, mouseY }) => {
                     </div>
                 </div>
 
-                {/* Giant percentage */}
+                {/* Pourcentage géant */}
                 <div className="flex items-baseline gap-2 mb-4">
                     <span
                         className="text-5xl font-black font-mono tracking-tighter"
@@ -147,7 +154,7 @@ const GlassCard: React.FC<GlassCardProps> = ({ item, mouseX, mouseY }) => {
                     <span className="text-2xl font-light text-slate-500">%</span>
                 </div>
 
-                {/* Progress bar */}
+                {/* Barre de progression */}
                 <div className="relative h-2 bg-slate-950/80 rounded-full overflow-hidden mb-3">
                     <div
                         className="absolute inset-0 blur-sm rounded-full"
@@ -166,23 +173,24 @@ const GlassCard: React.FC<GlassCardProps> = ({ item, mouseX, mouseY }) => {
                     />
                 </div>
 
+                {/* Info capacité */}
                 <div className="flex justify-between text-[10px] font-mono text-slate-500">
-                    <span>{item.current.toLocaleString()} / {item.max.toLocaleString()} {item.unit}</span>
-                    <span>CAPACITY</span>
+                    <span>{formatNumber(item.current)} / {formatNumber(item.max)} {item.unit}</span>
+                    <span>CAPACITÉ</span>
                 </div>
             </div>
         </div>
     );
-};
+}
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// MAIN PAGE - AGGRESSIVE CLOCK WITH suppressHydrationWarning
+// PAGE PRINCIPALE
 // ═══════════════════════════════════════════════════════════════════════════════
 export default function InventoryPage() {
-    // ═══ CLOCK - Direct initialization with current time ═══
+    // ═══ HORLOGE - Initialisation directe ═══
     const [time, setTime] = useState(new Date());
 
-    // ═══ CLOCK INTERVAL - Live updates every second ═══
+    // ═══ INTERVALLE HORLOGE ═══
     useEffect(() => {
         const intervalId = setInterval(() => {
             setTime(new Date());
@@ -190,7 +198,7 @@ export default function InventoryPage() {
         return () => clearInterval(intervalId);
     }, []);
 
-    // ═══ MOUSE TRACKING ═══
+    // ═══ SUIVI SOURIS ═══
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
     useEffect(() => {
@@ -201,143 +209,174 @@ export default function InventoryPage() {
         return () => window.removeEventListener('mousemove', handleMouseMove);
     }, []);
 
-    // ═══ STATIC COMPUTED VALUES ═══
+    // ═══ VALEURS CALCULÉES ═══
     const criticalCount = INVENTORY_DATA.filter(item => item.level < 30).length;
     const avgLevel = Math.round(INVENTORY_DATA.reduce((a, r) => a + r.level, 0) / INVENTORY_DATA.length);
 
+    // Formater l'heure manuellement
+    const hours = time.getHours().toString().padStart(2, '0');
+    const minutes = time.getMinutes().toString().padStart(2, '0');
+    const seconds = time.getSeconds().toString().padStart(2, '0');
+    const timeString = `${hours}:${minutes}:${seconds}`;
+
     return (
-        <div
-            className="h-screen w-screen overflow-hidden bg-[#030712] text-white font-sans relative"
-            style={{
-                '--mouse-x': `${mousePos.x}px`,
-                '--mouse-y': `${mousePos.y}px`,
-            } as React.CSSProperties}
-        >
-            {/* ═══ GLOBAL MOUSE LIGHT ═══ */}
-            <div
-                className="fixed inset-0 pointer-events-none z-0"
-                style={{
-                    background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(6, 182, 212, 0.06), transparent 40%)`,
-                }}
-            />
+        <>
+            {/* Empêcher la traduction automatique du navigateur */}
+            <meta name="google" content="notranslate" />
 
-            {/* ═══ BACKGROUND ═══ */}
-            <div className="fixed inset-0 z-0">
+            <div
+                className="h-screen w-screen overflow-hidden bg-[#030712] text-white font-sans relative"
+                translate="no"
+                style={{
+                    '--mouse-x': `${mousePos.x}px`,
+                    '--mouse-y': `${mousePos.y}px`,
+                } as React.CSSProperties}
+            >
+                {/* ═══ LUMIÈRE SOURIS GLOBALE ═══ */}
                 <div
-                    className="absolute inset-0 opacity-20"
+                    className="fixed inset-0 pointer-events-none z-0"
                     style={{
-                        backgroundImage: `
-              linear-gradient(rgba(6,182,212,0.1) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(6,182,212,0.1) 1px, transparent 1px)
-            `,
-                        backgroundSize: '60px 60px',
+                        background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(6, 182, 212, 0.06), transparent 40%)`,
                     }}
                 />
-                <div
-                    className="absolute inset-0"
-                    style={{
-                        background: `
-              radial-gradient(ellipse at 30% 20%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
-              radial-gradient(ellipse at 70% 80%, rgba(6, 182, 212, 0.1) 0%, transparent 50%)
-            `,
-                    }}
-                />
-            </div>
 
-            {/* ═══ SCANLINES ═══ */}
-            <div
-                className="fixed inset-0 pointer-events-none z-30 opacity-[0.015]"
-                style={{
-                    background: 'repeating-linear-gradient(0deg, transparent 0px, transparent 2px, rgba(255,255,255,0.1) 2px, rgba(255,255,255,0.1) 4px)',
-                }}
-            />
-
-            {/* ═══ VIGNETTE ═══ */}
-            <div
-                className="fixed inset-0 pointer-events-none z-20"
-                style={{
-                    background: 'radial-gradient(ellipse at center, transparent 20%, rgba(0,0,0,0.7) 100%)',
-                }}
-            />
-
-            {/* ═══ MAIN LAYOUT ═══ */}
-            <div className="relative z-10 h-full flex flex-col p-6">
-
-                {/* ═══ HEADER ═══ */}
-                <header className="flex items-center justify-between mb-6">
-                    <div>
-                        <div className="flex items-center gap-3 mb-1">
-                            <div className="h-[2px] w-12 bg-cyan-500" />
-                            <span className="text-[10px] font-mono text-cyan-500 uppercase tracking-[0.4em]">
-                                NEXUS-7 :: INVENTORY MATRIX
-                            </span>
-                        </div>
-                        <h1 className="text-4xl font-black tracking-tight">
-                            RESOURCE <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500">HUD</span>
-                        </h1>
-                    </div>
-
-                    {/* ═══ CLOCK - With suppressHydrationWarning ═══ */}
-                    <div className="text-center">
-                        <div className="text-[9px] font-mono text-slate-600 uppercase tracking-[0.3em] mb-1">
-                            SYSTEM TIME
-                        </div>
-                        <div
-                            className="text-4xl font-mono font-bold tracking-[0.2em] text-cyan-400"
-                            style={{ textShadow: '0 0 30px rgba(6, 182, 212, 0.8)' }}
-                            suppressHydrationWarning
-                        >
-                            {time.toLocaleTimeString('fr-FR')} <span className="text-lg text-cyan-600">:: LOCAL</span>
-                        </div>
-                    </div>
-
-                    {/* Stats */}
-                    <div className="flex gap-6">
-                        <div className="text-right">
-                            <div className="text-[9px] font-mono text-slate-600 uppercase">AVG LEVEL</div>
-                            <div className="text-3xl font-black text-cyan-400" style={{ textShadow: '0 0 20px rgba(6, 182, 212, 0.5)' }}>
-                                {avgLevel}%
-                            </div>
-                        </div>
-                        <div className="text-right">
-                            <div className="text-[9px] font-mono text-slate-600 uppercase">ALERTS</div>
-                            <div
-                                className={`text-3xl font-black ${criticalCount > 0 ? 'text-red-500' : 'text-emerald-500'}`}
-                                style={{ textShadow: criticalCount > 0 ? '0 0 20px rgba(239, 68, 68, 0.8)' : '0 0 20px rgba(16, 185, 129, 0.5)' }}
-                            >
-                                {criticalCount}
-                            </div>
-                        </div>
-                    </div>
-                </header>
-
-                {/* ═══ CARDS GRID ═══ */}
-                <div className="flex-1 grid grid-cols-3 gap-6 auto-rows-fr">
-                    {INVENTORY_DATA.map((item) => (
-                        <GlassCard
-                            key={item.id}
-                            item={item}
-                            mouseX={mousePos.x}
-                            mouseY={mousePos.y}
-                        />
-                    ))}
+                {/* ═══ FOND ═══ */}
+                <div className="fixed inset-0 z-0">
+                    <div
+                        className="absolute inset-0 opacity-20"
+                        style={{
+                            backgroundImage: `
+                linear-gradient(rgba(6,182,212,0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(6,182,212,0.1) 1px, transparent 1px)
+              `,
+                            backgroundSize: '60px 60px',
+                        }}
+                    />
+                    <div
+                        className="absolute inset-0"
+                        style={{
+                            background: `
+                radial-gradient(ellipse at 30% 20%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(6, 182, 212, 0.1) 0%, transparent 50%)
+              `,
+                        }}
+                    />
                 </div>
 
-                {/* ═══ FOOTER ═══ */}
-                <footer className="mt-6 flex items-center justify-between text-[10px] font-mono text-slate-600 uppercase tracking-wider">
-                    <div className="flex items-center gap-6">
-                        <div className="flex items-center gap-2">
-                            <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
-                            SYSTEMS ONLINE
+                {/* ═══ LIGNES DE BALAYAGE ═══ */}
+                <div
+                    className="fixed inset-0 pointer-events-none z-30 opacity-[0.015]"
+                    style={{
+                        background: 'repeating-linear-gradient(0deg, transparent 0px, transparent 2px, rgba(255,255,255,0.1) 2px, rgba(255,255,255,0.1) 4px)',
+                    }}
+                />
+
+                {/* ═══ VIGNETTE ═══ */}
+                <div
+                    className="fixed inset-0 pointer-events-none z-20"
+                    style={{
+                        background: 'radial-gradient(ellipse at center, transparent 20%, rgba(0,0,0,0.7) 100%)',
+                    }}
+                />
+
+                {/* ═══ MISE EN PAGE PRINCIPALE ═══ */}
+                <div className="relative z-10 h-full flex flex-col p-6">
+
+                    {/* ═══ EN-TÊTE ═══ */}
+                    <header className="flex items-center justify-between mb-6">
+                        <div suppressHydrationWarning>
+                            <div className="flex items-center gap-3 mb-1">
+                                <div className="h-[2px] w-12 bg-cyan-500" />
+                                <span
+                                    className="text-[10px] font-mono text-cyan-500 uppercase tracking-[0.4em]"
+                                    suppressHydrationWarning
+                                >
+                                    NEXUS-7 :: MATRICE D&apos;INVENTAIRE
+                                </span>
+                            </div>
+                            <h1
+                                className="text-4xl font-black tracking-tight"
+                                suppressHydrationWarning
+                            >
+                                RESSOURCES <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500">HUD</span>
+                            </h1>
                         </div>
-                        <div>SECTOR: GAMMA-12</div>
+
+                        {/* ═══ HORLOGE ═══ */}
+                        <div className="text-center">
+                            <div
+                                className="text-[9px] font-mono text-slate-600 uppercase tracking-[0.3em] mb-1"
+                                suppressHydrationWarning
+                            >
+                                HEURE SYSTÈME
+                            </div>
+                            <div
+                                className="text-4xl font-mono font-bold tracking-[0.2em] text-cyan-400"
+                                style={{ textShadow: '0 0 30px rgba(6, 182, 212, 0.8)' }}
+                                suppressHydrationWarning
+                            >
+                                {timeString} <span className="text-lg text-cyan-600">:: LOCAL</span>
+                            </div>
+                        </div>
+
+                        {/* Statistiques */}
+                        <div className="flex gap-6">
+                            <div className="text-right">
+                                <div
+                                    className="text-[9px] font-mono text-slate-600 uppercase"
+                                    suppressHydrationWarning
+                                >
+                                    NIVEAU MOY.
+                                </div>
+                                <div className="text-3xl font-black text-cyan-400" style={{ textShadow: '0 0 20px rgba(6, 182, 212, 0.5)' }}>
+                                    {avgLevel}%
+                                </div>
+                            </div>
+                            <div className="text-right">
+                                <div
+                                    className="text-[9px] font-mono text-slate-600 uppercase"
+                                    suppressHydrationWarning
+                                >
+                                    ALERTES
+                                </div>
+                                <div
+                                    className={`text-3xl font-black ${criticalCount > 0 ? 'text-red-500' : 'text-emerald-500'}`}
+                                    style={{ textShadow: criticalCount > 0 ? '0 0 20px rgba(239, 68, 68, 0.8)' : '0 0 20px rgba(16, 185, 129, 0.5)' }}
+                                >
+                                    {criticalCount}
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+
+                    {/* ═══ GRILLE DES CARTES ═══ */}
+                    <div className="flex-1 grid grid-cols-3 gap-6 auto-rows-fr">
+                        {INVENTORY_DATA.map((item) => (
+                            <GlassCard
+                                key={item.id}
+                                item={item}
+                                mouseX={mousePos.x}
+                                mouseY={mousePos.y}
+                            />
+                        ))}
                     </div>
-                    <div className="flex items-center gap-6">
-                        <div>LAT: 42.3601° N</div>
-                        <div className="text-cyan-500">v6.0.0-PRODUCTION</div>
-                    </div>
-                </footer>
+
+                    {/* ═══ PIED DE PAGE ═══ */}
+                    <footer className="mt-6 flex items-center justify-between text-[10px] font-mono text-slate-600 uppercase tracking-wider">
+                        <div className="flex items-center gap-6" suppressHydrationWarning>
+                            <div className="flex items-center gap-2">
+                                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
+                                SYSTÈMES EN LIGNE
+                            </div>
+                            <div>SECTEUR: GAMMA-12</div>
+                        </div>
+                        <div className="flex items-center gap-6" suppressHydrationWarning>
+                            <div>LAT: 42.3601° N</div>
+                            <div className="text-cyan-500">v8.0.0-FR</div>
+                        </div>
+                    </footer>
+                </div>
             </div>
-        </div>
+        </>
     );
 }
