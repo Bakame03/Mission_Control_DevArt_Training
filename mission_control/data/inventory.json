@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "name": "Oxygen",
+        "level": 85,
+        "status": "Stable"
+    },
+    {
+        "id": 2,
+        "name": "Water",
+        "level": 42,
+        "status": "Nominal"
+    },
+    {
+        "id": 3,
+        "name": "Fuel",
+        "level": 92,
+        "status": "Full"
+    },
+    {
+        "id": 4,
+        "name": "Food",
+        "level": 15,
+        "status": "Low"
+    },
+    {
+        "id": 5,
+        "name": "Energy",
+        "level": 60,
+        "status": "Safe"
+    }
+]
