@@ -1,0 +1,58 @@
+[
+    {
+        "id": 1,
+        "date": "2287-03-15",
+        "title": "Mission Launch Confirmed",
+        "message": "All systems nominal. Crew of 6 aboard the ISS-Nebula. Departure from Lunar Base Alpha at 0600 UTC. Course set for Mars orbital station.",
+        "type": "info"
+    },
+    {
+        "id": 2,
+        "date": "2287-03-22",
+        "title": "Micro-Meteorite Impact Detected",
+        "message": "Hull breach alert on Deck 7. Automated seal deployed. No casualties. Shield integrity dropped to 64%. Engineering team dispatched for inspection.",
+        "type": "alert"
+    },
+    {
+        "id": 3,
+        "date": "2287-04-01",
+        "title": "Oxygen Recycler Maintenance",
+        "message": "Routine maintenance completed on the O2 recycling unit. Efficiency restored to 87%. Next scheduled check in 30 days.",
+        "type": "info"
+    },
+    {
+        "id": 4,
+        "date": "2287-04-10",
+        "title": "Bio-Ration Supply Critical",
+        "message": "Food reserves have dropped below 20%. Emergency rationing protocol initiated. Resupply shuttle ETA: 14 days.",
+        "type": "alert"
+    },
+    {
+        "id": 5,
+        "date": "2287-04-18",
+        "title": "Deep Space Communication Established",
+        "message": "Successfully established a quantum-link channel with Earth Command. Signal latency at 12 minutes. Data exchange nominal.",
+        "type": "info"
+    },
+    {
+        "id": 6,
+        "date": "2287-04-25",
+        "title": "Unidentified Object on Radar",
+        "message": "Sensor array picked up an unidentified object at bearing 047-mark-3. Object is non-responsive to hails. Tracking initiated. Crew on standby.",
+        "type": "alert"
+    },
+    {
+        "id": 7,
+        "date": "2287-05-02",
+        "title": "Crew Rotation Completed",
+        "message": "Sleep cycle rotation complete. Team Bravo is now active. All crew members report nominal health metrics. Morale is stable.",
+        "type": "info"
+    },
+    {
+        "id": 8,
+        "date": "2287-05-10",
+        "title": "Plasma Reactor at Maximum Output",
+        "message": "Reactor output holding steady at 1200 MW. All power distribution systems green. No anomalies detected in the coolant loop.",
+        "type": "info"
+    }
+]
