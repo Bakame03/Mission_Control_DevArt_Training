@@ -17,6 +17,12 @@ export default function Home() {
                 >
                     Access Inventory System
                 </Link>
+                <Link
+                    href="/logs"
+                    className="px-8 py-4 bg-red-600 hover:bg-red-500 text-white rounded-lg font-bold transition-all shadow-[0_0_20px_rgba(239,68,68,0.3)] hover:scale-105"
+                >
+                    Captain's Log
+                </Link>
             </div>
         </main>
     );
